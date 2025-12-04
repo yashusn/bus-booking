@@ -11,6 +11,7 @@ pipeline {
     }
 
     stages {
+
         stage('checkout') {
             steps {
                 sh 'rm -rf bus_booking'
@@ -20,25 +21,19 @@ pipeline {
 
         stage('build') {
             steps {
-                sh "mvn clean install"
+                dir('bus_booking') {
+                    sh "mvn clean install"
+                }
             }
         }
 
         stage('Show Contents of target') {
             steps {
-                script {
-                    // Print the contents of the target directory
-                    sh 'ls -l target'
+                dir('bus_booking/target') {
+                    sh 'ls -l'
                 }
             }
         }
 
-        stage('Run WAR Locally') {
-            steps {
-                script {
-                    // Run the JAR file using java -war
-                    sh "java -jar target/${JAR_FILE}"
-                }
-            }
-        }
     }
+}
