@@ -29,7 +29,7 @@ pipeline {
         stage('Validate Application') {
             steps {
                 sh '''
-                    echo "Waiting for app on 8080...."
+                    echo "Waiting for app on 8080..."
 
                     for i in {1..20}; do
                         if curl -s http://localhost:8080 >/dev/null; then
