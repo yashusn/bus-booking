@@ -9,60 +9,8 @@ This repository contains the source code for the Bus Booking Application built w
 - GitHub repository for CI/CD (optional)
 - Jenkins for Jenkins pipeline (optional)
 
-  # Bus Booking App
-=============================================================================================================================================================================
-=============================================================================================================================================================================
-
 ## Project Setup
 
-# Bus Booking App
-
-## Bash Script for Setup
-
-Use the following script to install Java 11, Maven, and set up `JAVA_HOME`:
-
-```bash
-==========================================================================================================================================================================
-#!/bin/bash
-
-set -e
-
-echo "Starting installation of Java 11 and Maven..."
-
-# Install Java 11
-if ! java -version &>/dev/null; then
-    echo "Installing Java 11..."
-    sudo apt update
-    sudo apt install -y openjdk-11-jdk
-else
-    echo "Java is already installed:"
-    java -version
-fi
-
-# Set JAVA_HOME
-JAVA_HOME_PATH=$(dirname $(dirname $(readlink -f $(which java))))
-if ! grep -q "JAVA_HOME=$JAVA_HOME_PATH" /etc/environment; then
-    echo "Setting JAVA_HOME..."
-    echo "JAVA_HOME=$JAVA_HOME_PATH" | sudo tee -a /etc/environment
-    echo "export JAVA_HOME=$JAVA_HOME_PATH" | sudo tee -a /etc/profile
-    echo 'export PATH=$JAVA_HOME/bin:$PATH' | sudo tee -a /etc/profile
-    source /etc/profile
-    echo "JAVA_HOME set to $JAVA_HOME_PATH"
-else
-    echo "JAVA_HOME is already set."
-fi
-
-# Install Maven
-if ! mvn -version &>/dev/null; then
-    echo "Installing Maven..."
-    sudo apt install -y maven
-else
-    echo "Maven is already installed:"
-    mvn -version
-fi
-
-echo "Setup completed successfully."
-============================================================================================================================================================================
 ### Clone the Repository
 
 ```bash
@@ -142,7 +90,6 @@ Gracefully stop the Spring Boot application after 5 minutes.
 GitHub Actions CI/CD Pipeline
 This project includes a GitHub Actions CI pipeline that automatically builds, tests, and deploys the Spring Boot application whenever you push changes to the repository.
 
-==========================================================================================================================================================================
 ==========================================================================================================================================================================
 
 .github/workflows/java-ci.yml
@@ -239,7 +186,6 @@ Wait for 5 minutes: Waits for 5 minutes to simulate the running app.
 Gracefully stop the Spring Boot application: Stops the Spring Boot app using the spring-boot:stop command.
 Jenkins Pipeline
 The following Jenkins pipeline (Jenkinsfile) can be used for CI/CD with Jenkins.
-===========================================================================================================================================================================
 ===========================================================================================================================================================================
 Jenkinsfile
 groovy
