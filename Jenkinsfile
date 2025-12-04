@@ -36,8 +36,8 @@ pipeline {
         stage('Run WAR Locally') {
             steps {
                 script {
-                    // Run the WAR file using java -war
-                    sh "java -war target/${JAR_FILE}"
+                    // Run the JAR file using java -war
+                    sh "java -jar target/${JAR_FILE}"
                 }
             }
         }
