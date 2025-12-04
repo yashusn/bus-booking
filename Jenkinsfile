@@ -18,7 +18,7 @@ pipeline {
         stage('Run Application') {
             steps {
                 sh '''
-                    echo "Starting Spring Boot with nohup..."
+                    echo "Starting Spring Boot with nohup.."
                     nohup mvn spring-boot:run > app.log 2>&1 &
                     echo $! > app.pid
                     sleep 10
