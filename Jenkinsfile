@@ -1,3 +1,5 @@
+@Library('Mylibrary') _
+
 pipeline {
     agent { label 'java' }
 
@@ -11,7 +13,10 @@ pipeline {
 
         stage('Build') {
             steps {
-                sh 'mvn clean install'
+             dir('bus_booking')
+            {
+              build('install')
+             }
             }
         }
 
