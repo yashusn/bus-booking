@@ -1,7 +1,8 @@
 @Library('Mylibrary') _
 
 pipeline {
-    agent { label 'java' }
+    //agent { label 'java' }
+    agent any
 
     stages {
 
