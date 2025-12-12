@@ -10,7 +10,7 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      # Step 1: Checkout code
+      # Step 1: Checkout the code
       - name: Checkout Code
         uses: actions/checkout@v3
 
@@ -20,14 +20,19 @@ jobs:
           curl -fL https://getcli.jfrog.io | sh
           ./jfrog --version
 
-      # Step 3: Configure JFrog CLI
+      # Step 3: Configure connection to JFrog Server
       - name: Configure JFrog CLI
+        env:
+          JFROG_URL: ${{ secrets.JFROG_URL }}
+          JFROG_USER: ${{ secrets.JFROG_USER }}
+          JFROG_API_KEY: ${{ secrets.JFROG_API_KEY }}
         run: |
           ./jfrog config add jfrog \
-            --url="${{ secrets.JFROG_URL }}" \
-            --user="${{ secrets.JFROG_USER }}" \
-            --apikey="${{ secrets.JFROG_API_KEY }}" \
+            --url="$JFROG_URL" \
+            --user="$JFROG_USER" \
+            --apikey="$JFROG_API_KEY" \
             --interactive=false
+          ./jfrog config show
 
       # Step 4: Set up Java
       - name: Set up Java
@@ -47,20 +52,18 @@ jobs:
 
       # Step 6: Build with Maven
       - name: Build with Maven
-        run: mvn clean install
+        run: mvn clean package
 
-      # Step 7: Show JFrog server config (debugging)
+      # Step 7: Show JFrog servers (debug)
       - name: Show JFrog servers
         run: ./jfrog config show
 
-      # Step 8: Upload artifact to JFrog
+      # Step 8: Upload WAR/JAR to JFrog Artifactory
       - name: Upload artifact to JFrog
-        env:
-          JFROG_CLI_LOG_LEVEL: DEBUG
         run: |
-          ./jfrog rt upload \
-            "target/bus-booking-app-1.0-SNAPSHOT.war" \
-            "new-app-libs-release/bus-app/1.0.0/" \
+          ./jfrog rt u \
             --server-id=jfrog \
             --flat=true \
-            --detailed-summary=true
+            --detailed-summary=true \
+            "target/*.war" \
+            "Busapplication/Busapplication/"
