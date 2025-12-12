@@ -20,10 +20,10 @@ jobs:
           curl -fL https://getcli.jfrog.io | sh
           ./jfrog --version
 
-          # Configure connection to JFrog Server
+       # step 3: Configure connection to JFrog Server
       - name: Configure JFrog CLI
         run: |
-          jf config add jfrog \
+          ./jfrog config add jfrog \
             --url="${{ secrets.JFROG_URL }}" \
             --user="${{ secrets.JFROG_USER }}" \
             --password="${{ secrets.JFROG_API_KEY }}" \
@@ -56,7 +56,7 @@ jobs:
       # Step 8: Upload WAR/JAR to JFrog Artifactory
       - name: Upload artifact to JFrog
         run: |
-          ./jfrog rt upload \
+          ./jfrog rt u \
             "target/bus-booking-app-1.0-SNAPSHOT.war" \
             "new-app-libs-release/bus-app/1.0.0/" \
             --server-id=jfrog
