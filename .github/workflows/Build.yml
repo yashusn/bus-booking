@@ -22,12 +22,17 @@ jobs:
 
       # Step 3: Configure connection to JFrog Server
       - name: Configure JFrog CLI
+        env:
+          JFROG_URL: ${{ secrets.JFROG_URL }}
+          JFROG_USER: ${{ secrets.JFROG_USER }}
+          JFROG_API_KEY: ${{ secrets.JFROG_API_KEY }}
         run: |
           ./jfrog config add jfrog \
-            --url="${{ secrets.JFROG_URL }}" \
-            --user="${{ secrets.JFROG_USER }}" \
-            --password="${{ secrets.JFROG_API_KEY }}" \
+            --url="$JFROG_URL" \
+            --user="$JFROG_USER" \
+            --password="$JFROG_API_KEY" \
             --interactive=false
+          ./jfrog config show
 
       # Step 4: Set up Java
       - name: Set up Java
@@ -49,7 +54,7 @@ jobs:
       - name: Build with Maven
         run: mvn clean install
 
-      # Step 7: Show JFrog server (for debug)
+      # Step 7: Show JFrog servers (for debug)
       - name: Show JFrog servers
         run: ./jfrog config show
 
@@ -60,5 +65,5 @@ jobs:
             "target/bus-booking-app-1.0-SNAPSHOT.war" \
             "new-app-libs-release/bus-app/1.0.0/" \
             --server-id=jfrog \
-            --flat=true
+            --flat=true \
             --detailed-summary=true
