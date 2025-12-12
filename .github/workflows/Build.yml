@@ -42,6 +42,9 @@ jobs:
       - name: Build with Maven
         run: mvn clean install
 
+      - name: Show JFrog servers
+        run: ./jfrog config show
+
       - name: upload JAR to JFROG
         run:  |
           ./jfrog rt u \
