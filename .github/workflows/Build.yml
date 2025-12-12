@@ -58,5 +58,5 @@ jobs:
         run: |
           ./jfrog rt u \
             "target/bus-booking-app-1.0-SNAPSHOT.war" \
-            "Busapplication" \
+            "new-app-libs-release/bus-app/1.0.0/" \
             --server-id=jfrog
