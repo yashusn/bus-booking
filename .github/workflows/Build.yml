@@ -62,8 +62,8 @@ jobs:
 
       - name: upload JAR to JFROG
         run: |
-          ./jfrog rt u \
-            "target/bus-booking-app-1.0-SNAPSHOT.jar" \
+          ./jfrog rt upload \
+            "target/bus-booking-app-1.0-SNAPSHOT.war" \
             "new-app-libs-release/bus-app/1.0.0/" \
             --server-id=jfrog
 
