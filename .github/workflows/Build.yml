@@ -46,7 +46,8 @@ jobs:
         run: ./jfrog config show
 
       - name: upload JAR to JFROG
-        run:  ./jfrog rt u "target/bus-booking-app-1.0-SNAPSHOT.jar" "bus_app/" --server-id=jfrog
+        run:  ./jfrog rt u "target/bus-booking-app-1.0-SNAPSHOT.jar" "new-app-libs-release/" --server-id=jfrog
+
 
       # - name: Upload JAR to artifact
       #   uses: actions/upload-artifact@v4
