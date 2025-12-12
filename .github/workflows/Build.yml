@@ -56,7 +56,7 @@ jobs:
       # Step 8: Upload WAR/JAR to JFrog Artifactory
       - name: Upload artifact to JFrog
         run: |
-          ./jfrog rt u \
+          ./jfrog rt upload \
             "target/bus-booking-app-1.0-SNAPSHOT.war" \
             "new-app-libs-release/bus-app/1.0.0/" \
             --server-id=jfrog
