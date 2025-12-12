@@ -46,7 +46,8 @@ jobs:
         run:  |
           ./jfrog rt u \
             "target/bus-booking-app-1.0-SNAPSHOT.jar" \
-            "https://trialv6ppcu.jfrog.io/artifactory/new-app-libs-snapshot/bus-app/1.0.0/"
+            "new-app-libs-snapshot/bus-app/1.0.0/"
+            --server-id=my-server
 
       # - name: Upload JAR to artifact
       #   uses: actions/upload-artifact@v4
