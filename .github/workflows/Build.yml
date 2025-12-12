@@ -62,9 +62,8 @@ jobs:
       - name: Upload artifact to JFrog
         run: |
           TIMESTAMP=$(date +%Y%m%d%H%M%S)
-          jfrog rt u \
+          jfrog rt upload \
           --server-id=jfrog \
           --flat=true \
           --detailed-summary=true \
-          "target/*.war" \
-          "Busapplication/${TIMESTAMP}/"
+          "target/*.war" "Busapplication/${TIMESTAMP}/"
