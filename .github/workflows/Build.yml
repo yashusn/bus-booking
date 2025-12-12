@@ -10,42 +10,39 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
+      # Step 1: Checkout the code
       - name: Checkout Code
         uses: actions/checkout@v3
-        
-      - name: Install Jfrog CLI
+
+      # Step 2: Install JFrog CLI
+      - name: Install JFrog CLI
         run: |
           curl -fL https://getcli.jfrog.io | sh
           ./jfrog --version
 
-          - name: Configure JFrog CLI
-             env:
-               JFROG_URL: ${{ secrets.JFROG_URL }}
-               JFROG_USER: ${{ secrets.JFROG_USER }}
-               JFROG_API_KEY: ${{ secrets.JFROG_API_KEY }}
-          run: |
-            ./jfrog config add jfrog \
-              --url "$JFROG_URL" \
-              --user "$JFROG_USER" \
-              --password "$JFROG_API_KEY" \
-              --interactive=false
-              ./jfrog config show
+      # Step 3: Configure JFrog CLI
+      - name: Configure JFrog CLI
+        env:
+          JFROG_URL: ${{ secrets.JFROG_URL }}
+          JFROG_USER: ${{ secrets.JFROG_USER }}
+          JFROG_API_KEY: ${{ secrets.JFROG_API_KEY }}
+        run: |
+          ./jfrog config add jfrog \
+            --url "$JFROG_URL" \
+            --user "$JFROG_USER" \
+            --password "$JFROG_API_KEY" \
+            --interactive=false
+          echo "JFrog configuration:"
+          ./jfrog config show
 
-    
-
-      #- name: Configure Jfrog CLI
-       # run: |
-        #  ./jfrog config add jfrog \
-         #   --url "${{ secrets.JFROG_URL }}" \
-          #  --user "${{ secrets.JFROG_USER }}" \
-           #--interactive=false
-
+      # Step 4: Set up Java
       - name: Set up Java
         uses: actions/setup-java@v3
         with:
           java-version: '11'
           distribution: 'temurin'
 
+      # Step 5: Cache Maven dependencies
       - name: Cache Maven dependencies
         uses: actions/cache@v3
         with:
@@ -54,50 +51,18 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-maven-
 
+      # Step 6: Build with Maven
       - name: Build with Maven
         run: mvn clean install
 
+      # Step 7: Show JFrog server (for debug)
       - name: Show JFrog servers
         run: ./jfrog config show
 
-      - name: upload JAR to JFROG
+      # Step 8: Upload WAR/JAR to JFrog Artifactory
+      - name: Upload artifact to JFrog
         run: |
           ./jfrog rt u \
             "target/bus-booking-app-1.0-SNAPSHOT.war" \
-            "Busapplication" \
+            "Busapplication/" \
             --server-id=jfrog
-
-
-      # - name: Upload JAR to artifact
-      #   uses: actions/upload-artifact@v4
-      #   with:
-      #     name: bus-booking-app
-      #     path: target/bus-booking-app-1.0-SNAPSHOT.jar
-
-      # - name: Run Spring Boot App
-      #   run: mvn spring-boot:run &
-      #   env:
-      #     SPRING_PROFILES_ACTIVE: "test"
-
-      # - name: Validate App is Running
-      #   run: |
-      #     echo "Waiting for the app to start..."
-      #     sleep 15
-      #     echo "Checking if the app is running..."
-      #     RESPONSE=$(curl --write-out "%{http_code}" --silent --output /dev/null http://localhost:8080)
-      #     if [ "$RESPONSE" -eq 200 ]; then
-      #       echo "The app is running successfully!"
-      #     else
-      #       echo "The app failed to start. HTTP response code: $RESPONSE"
-      #       exit 1
-      #     fi
-
-      # - name: Wait for 2 minutes
-      #   run: |
-      #     echo "App will run for 2 minutes..."
-      #     sleep 120
-
-      # - name: Gracefully Stop Spring Boot App
-      #   run: |
-      #     echo "Stopping the app gracefully..."
-      #     mvn spring-boot:stop
