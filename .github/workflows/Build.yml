@@ -20,7 +20,7 @@ jobs:
           curl -fL https://getcli.jfrog.io | sh
           ./jfrog --version
 
-       # step 3: Configure connection to JFrog Server
+      # Step 3: Configure connection to JFrog Server
       - name: Configure JFrog CLI
         run: |
           ./jfrog config add jfrog \
@@ -59,4 +59,5 @@ jobs:
           ./jfrog rt u \
             "target/bus-booking-app-1.0-SNAPSHOT.war" \
             "new-app-libs-release/bus-app/1.0.0/" \
-            --server-id=jfrog
+            --server-id=jfrog \
+            --flat=true
