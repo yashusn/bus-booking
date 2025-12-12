@@ -32,7 +32,7 @@ jobs:
       - name: Configure JFrog CLI
         run: |
           jfrog config add artifactory-server \
-            --url "https://trialv6ppcu.jfrog.io" \
+            --url "https://yashusn.jfrog.io" \
             --access-token "${{ secrets.JFROG_API_KEY }}" \
             --interactive=false
       - name: Upload WAR to JFrog
@@ -40,7 +40,7 @@ jobs:
           TIMESTAMP=$(date +%Y%m%d%H%M%S)
 
 
-          jfrog rt upload "target/*.war" "Busapplication/bus-booking-app-1.0/${TIMESTAMP}/" \
+          jfrog rt upload "target/*.war" "busapplication-libs-release/bus-booking-app-1.0/${TIMESTAMP}/" \
 
           --server-id=artifactory-server \
 
